@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace ConsoleApp2
 {
+    [Service]
     public class GoogleWeatherService : IWeatherService
     {
         private IHttpRemoteService remoteService;

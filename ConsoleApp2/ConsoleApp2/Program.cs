@@ -7,6 +7,7 @@ using NHibernate.Tool.hbm2ddl;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -56,14 +57,39 @@ namespace ConsoleApp2
             }).As<ISessionFactory>().SingleInstance();
             containerBuilder.Register(x => x.Resolve<ISessionFactory>().OpenSession())
                 .As<ISession>();
+            var types = typeof(User).Assembly.GetTypes();
+            foreach (var type in types)
+            {
+                var serviceAttribute = type.GetCustomAttribute<ServiceAttribute>();
+                if (serviceAttribute == null)
+                {
+                    continue;
+                }
+                containerBuilder.RegisterType(type)
+                    .SingleInstance()
+                    .AsImplementedInterfaces();
+            }
             var container = containerBuilder.Build();
             
-            var user = new User { FIO = "Иванов Иван Иванович" };
+            var services = container.Resolve<IWeatherService[]>();
+
+            var role = new Role { 
+                Name = "Администраторы",
+                RoleName = "Менеджер"
+            };
+            var user = new User 
+            { 
+                FIO = "Иванов Иван Иванович",
+                Group = role,
+                Profile = new Profile { 
+                    LastAuth = DateTime.Now
+                }
+             };
             var session = container.Resolve<ISession>();
             using (var tran = session.BeginTransaction())
             {
                 try
-                {
+                {                   
                     session.Save(user);
                     tran.Commit();
                 }

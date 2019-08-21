@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace ConsoleApp2
 {
+    [Service]
     public class HttpRemoteService : IHttpRemoteService
     {
         public object Post(string url, object @params)
