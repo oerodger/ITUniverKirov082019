@@ -18,6 +18,7 @@ using System.Web.Routing;
 using WebApplication1.App_Start;
 using WebApplication1.Controllers;
 using WebApplication1.DAL;
+using WebApplication1.DAL.Repositories;
 
 [assembly: OwinStartup(typeof(Startup))]
 namespace WebApplication1.App_Start
@@ -41,7 +42,7 @@ namespace WebApplication1.App_Start
                     .Database(MsSqlConfiguration.MsSql2012
                         .ConnectionString(connectionString.ConnectionString)
                         .Dialect<MsSql2012Dialect>())
-                    .Mappings(m => m.FluentMappings.AddFromAssemblyOf<User>())
+                    .Mappings(m => m.FluentMappings.AddFromAssemblyOf<User>())                    
                     .CurrentSessionContext("call");
                     var conf = cfg.BuildConfiguration();
                     var schemeExport = new SchemaUpdate(conf);
@@ -54,6 +55,7 @@ namespace WebApplication1.App_Start
                 .InstancePerRequest();
             containerBuilder.RegisterControllers(Assembly.GetAssembly(typeof(HomeController)));
             containerBuilder.RegisterModule(new AutofacWebTypesModule());
+            containerBuilder.RegisterType<UserRepository>();
             var container = containerBuilder.Build();
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
             app.UseAutofacMiddleware(container);

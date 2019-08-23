@@ -24,7 +24,18 @@ namespace WebApplication1.DAL.Repositories
 
         public virtual void Save(T entity)
         {
-            session.Save(entity);
+            using (var tran = session.BeginTransaction())
+            { 
+                try
+                { 
+                    session.Save(entity);
+                    tran.Commit();
+                }
+                catch(Exception ex)
+                { 
+                    tran.Rollback();
+                    }
+            }
         } 
     }
 }

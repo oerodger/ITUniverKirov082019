@@ -12,6 +12,8 @@ namespace WebApplication1.DAL
         public virtual long Id { get; set; }
 
         public virtual string FIO { get; set; }
+
+        public virtual string Password { get; set; }
     }
 
     public class UserMap: ClassMap<User>
@@ -19,7 +21,8 @@ namespace WebApplication1.DAL
         public UserMap()
         {
             Id(u => u.Id).GeneratedBy.HiLo("100");
-            Map(u => u.FIO).Length(100);           
+            Map(u => u.FIO).Length(100);   
+            Map(u => u.Password).Length(500);
         }
     }
 }

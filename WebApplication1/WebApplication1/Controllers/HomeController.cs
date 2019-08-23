@@ -3,18 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using WebApplication1.DAL;
 using WebApplication1.DAL.Repositories;
 using WebApplication1.Models;
 
 namespace WebApplication1.Controllers
 {
     public class HomeController : Controller
-    {
-        private UserRepository userRepository;
+    {     
 
-        public HomeController(UserRepository userRepository)
+        public HomeController()
         {
-            this.userRepository = userRepository;
+
         }
 
         // GET: Home
