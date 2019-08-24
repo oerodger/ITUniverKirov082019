@@ -11,10 +11,21 @@ namespace WebApplication1.Models
 {
     public class UserModel: EntityModel<User>
     {
-        [Required]
-        [Login]
+        [Required]        
         [DisplayName("Полное имя")]
         public string FIO { get; set; }
+
+        [Required]
+        [Login]
+        [DisplayName("Имя пользователя")]
+        public string Login { get; set; }
+
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; }
+               
+        [DisplayName("Возраст")]
+        public virtual int Age { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
