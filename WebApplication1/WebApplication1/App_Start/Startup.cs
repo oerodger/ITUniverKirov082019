@@ -56,6 +56,7 @@ namespace WebApplication1.App_Start
             containerBuilder.RegisterControllers(Assembly.GetAssembly(typeof(HomeController)));
             containerBuilder.RegisterModule(new AutofacWebTypesModule());
             containerBuilder.RegisterType<UserRepository>();
+            containerBuilder.RegisterType<FolderRepository>();
             var container = containerBuilder.Build();
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
             app.UseAutofacMiddleware(container);

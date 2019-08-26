@@ -64,8 +64,11 @@
   <ItemGroup>
     <Compile Include="Filters\BaseFilter.cs" />
     <Compile Include="Filters\FastSearchAttribute.cs" />
+    <Compile Include="Filters\FolderFilter.cs" />
     <Compile Include="Filters\Range.cs" />
     <Compile Include="Filters\UserFilter.cs" />
+    <Compile Include="Folder.cs" />
+    <Compile Include="Repositories\FolderRepository.cs" />
     <Compile Include="Repositories\Repository.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
     <Compile Include="User.cs" />

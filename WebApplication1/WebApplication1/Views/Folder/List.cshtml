@@ -1,0 +1,21 @@
+﻿@using WebApplication1.DAL.Filters
+@model WebApplication1.Models.FolderModel
+@{
+    ViewBag.Title = Model.CurrentFolder != null ? 
+        Model.CurrentFolder.Name :
+        "Хранилище документов";
+    var parentId = Model.CurrentFolder != null ? Model.CurrentFolder.Id : (long?)null;
+}
+
+<h2>List</h2>
+
+<p>
+    @Html.ActionLink("Добавить", "Create", new { parent =  parentId })
+</p>
+
+<div style="height:20px;"></div>
+
+@Html.Partial("Grid", Model.Items, new ViewDataDictionary { 
+    { "Parent", Model.Parent },
+    { "IsRootFolder", Model.IsRootFolder },
+})
