@@ -10,7 +10,7 @@ using WebApplication1.DAL.Filters;
 
 namespace WebApplication1.DAL.Repositories
 {
-    public class Repository<T, F>
+    public class Repository<T, F> : IRepository
         where T: class
         where F: BaseFilter
     {

@@ -18,6 +18,7 @@ using System.Web.Routing;
 using WebApplication1.App_Start;
 using WebApplication1.Controllers;
 using WebApplication1.DAL;
+using WebApplication1.DAL.Filters;
 using WebApplication1.DAL.Repositories;
 
 [assembly: OwinStartup(typeof(Startup))]
@@ -55,7 +56,9 @@ namespace WebApplication1.App_Start
                 .InstancePerRequest();
             containerBuilder.RegisterControllers(Assembly.GetAssembly(typeof(HomeController)));
             containerBuilder.RegisterModule(new AutofacWebTypesModule());
-            containerBuilder.RegisterType<UserRepository>();
+            containerBuilder.RegisterType<UserRepository>()
+                .AsSelf()
+                .As<Repository<User, UserFilter>>();
             containerBuilder.RegisterType<FolderRepository>();
             var container = containerBuilder.Build();
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));

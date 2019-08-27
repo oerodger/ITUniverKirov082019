@@ -25,7 +25,11 @@ namespace WebApplication1.Models
         public string Email { get; set; }
                
         [DisplayName("Возраст")]
-        public virtual int Age { get; set; }
+        public int Age { get; set; }
+
+        [DataType(DataType.Date)]
+        [DisplayName("Дата рождения")]
+        public DateTime BirthDate { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
@@ -37,5 +41,7 @@ namespace WebApplication1.Models
         [DataType(DataType.Password)]
         [DisplayName("Подтверждение")]
         public string ConfirmPassword { get; set; }
+
+        public User CreationAutor { get; set; }
     }
 }

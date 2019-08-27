@@ -20,7 +20,7 @@ namespace WebApplication1.Controllers
         }
 
         public ActionResult Create()
-        {
+        {           
             var model = new UserModel();
             return View(model);
         }
@@ -40,7 +40,8 @@ namespace WebApplication1.Controllers
                 Age = model.Age,
                 Login = model.Login,
                 Email = model.Email,
-                CreationDate = DateTime.Now
+                CreationDate = DateTime.Now,
+                BirthDate = model.BirthDate
             };
             userRepository.Save(user);
 

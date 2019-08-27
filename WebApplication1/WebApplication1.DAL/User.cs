@@ -8,6 +8,7 @@ using WebApplication1.DAL.Filters;
 
 namespace WebApplication1.DAL
 {
+    [Filter(Type = typeof(UserFilter))]
     public class User
     {
         public virtual long Id { get; set; }
@@ -29,6 +30,8 @@ namespace WebApplication1.DAL
 
         [FastSearch(FiledType = FiledType.Int)]
         public virtual int Age { get; set; }
+
+        public virtual DateTime BirthDate { get; set; }
     }
 
     public class UserMap: ClassMap<User>
@@ -40,6 +43,7 @@ namespace WebApplication1.DAL
             Map(u => u.Password).Length(500);
             Map(u => u.Login).Length(30);
             Map(u => u.CreationDate);
+            Map(u => u.BirthDate);
             Map(u => u.Age);
             Map(u => u.Email);
             References(u => u.CreationAuthor).Cascade.SaveUpdate();
