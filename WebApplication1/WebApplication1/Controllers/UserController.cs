@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using WebApplication1.DAL;
 using WebApplication1.DAL.Filters;
 using WebApplication1.DAL.Repositories;
+using WebApplication1.Files;
 using WebApplication1.Models;
 
 namespace WebApplication1.Controllers
@@ -41,8 +43,12 @@ namespace WebApplication1.Controllers
                 Login = model.Login,
                 Email = model.Email,
                 CreationDate = DateTime.Now,
-                BirthDate = model.BirthDate
+                BirthDate = model.BirthDate,
+                Avatar = model.Avatar != null && model.Avatar.InputStream != null ? 
+                        model.Avatar.InputStream.ToByteArray() : 
+                        null
             };
+           
             userRepository.Save(user);
 
             return RedirectToAction("Index", "Home");
@@ -55,6 +61,12 @@ namespace WebApplication1.Controllers
                 Items = userRepository.Find(filter)
             };
             return View(model);
+        }
+
+        public ActionResult GetAvatar(long id)
+        {
+            var user = userRepository.Load(id);            
+            return File(user.Avatar, "application/octet-stream", $"{user.Login}.jpeg");            
         }
     }
 }

@@ -1,0 +1,16 @@
+﻿@model WebApplication1.Models.SortLinkModel
+
+    <a href="@Url.Action(Model.Action, Model.Controller, Model.RouteValues)">
+        @Model.LinkText
+        @if (Model.SortDirection.HasValue)
+        {
+            if (Model.SortDirection.Value == WebApplication1.DAL.Filters.SortDirection.Asc)
+            {
+                <img src="~/Content/images/up.png" />
+            }
+            else
+            {
+                <img src="~/Content/images/down.png" />
+            }
+        }
+    </a>

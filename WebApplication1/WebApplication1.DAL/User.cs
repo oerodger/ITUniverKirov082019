@@ -32,6 +32,8 @@ namespace WebApplication1.DAL
         public virtual int Age { get; set; }
 
         public virtual DateTime BirthDate { get; set; }
+
+        public virtual byte[] Avatar { get; set; }
     }
 
     public class UserMap: ClassMap<User>
@@ -46,6 +48,7 @@ namespace WebApplication1.DAL
             Map(u => u.BirthDate);
             Map(u => u.Age);
             Map(u => u.Email);
+            Map(u => u.Avatar).Length(int.MaxValue);
             References(u => u.CreationAuthor).Cascade.SaveUpdate();
         }
     }

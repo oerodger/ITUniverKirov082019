@@ -43,5 +43,8 @@ namespace WebApplication1.Models
         public string ConfirmPassword { get; set; }
 
         public User CreationAutor { get; set; }
+
+        [DataType(DataType.Upload)]
+        public HttpPostedFileWrapper Avatar { get; set; }
     }
 }
