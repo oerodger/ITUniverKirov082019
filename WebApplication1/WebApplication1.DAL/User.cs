@@ -1,4 +1,5 @@
 ﻿using FluentNHibernate.Mapping;
+using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,12 +10,12 @@ using WebApplication1.DAL.Filters;
 namespace WebApplication1.DAL
 {
     [Filter(Type = typeof(UserFilter))]
-    public class User
+    public class User: IUser<long>
     {
         public virtual long Id { get; set; }
 
         [FastSearch]
-        public virtual string Login { get; set; }
+        public virtual string UserName { get; set; }
 
         [FastSearch]
         public virtual string FIO { get; set; }
@@ -34,6 +35,7 @@ namespace WebApplication1.DAL
         public virtual DateTime BirthDate { get; set; }
 
         public virtual byte[] Avatar { get; set; }
+        
     }
 
     public class UserMap: ClassMap<User>
@@ -43,7 +45,7 @@ namespace WebApplication1.DAL
             Id(u => u.Id).GeneratedBy.HiLo("100");
             Map(u => u.FIO).Length(100);   
             Map(u => u.Password).Length(500);
-            Map(u => u.Login).Length(30);
+            Map(u => u.UserName).Length(30);
             Map(u => u.CreationDate);
             Map(u => u.BirthDate);
             Map(u => u.Age);

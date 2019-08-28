@@ -20,6 +20,9 @@ using WebApplication1.Controllers;
 using WebApplication1.DAL;
 using WebApplication1.DAL.Filters;
 using WebApplication1.DAL.Repositories;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin.Security.Cookies;
+using Microsoft.AspNet.Identity;
 
 [assembly: OwinStartup(typeof(Startup))]
 namespace WebApplication1.App_Start
@@ -63,6 +66,16 @@ namespace WebApplication1.App_Start
             var container = containerBuilder.Build();
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
             app.UseAutofacMiddleware(container);
+
+            app.CreatePerOwinContext(() =>
+                new UserManager(new IdentityStore(DependencyResolver.Current.GetService<ISession>())));
+            app.CreatePerOwinContext<SignInManager>((opt, context) => 
+                new SignInManager(context.GetUserManager<UserManager>(), context.Authentication));
+            app.UseCookieAuthentication(new CookieAuthenticationOptions {
+                AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
+                LoginPath = new PathString("/Account/Login"),
+                Provider = new CookieAuthenticationProvider()
+            });
         }
     }
 }

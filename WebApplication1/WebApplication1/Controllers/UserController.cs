@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -12,9 +14,15 @@ using WebApplication1.Models;
 
 namespace WebApplication1.Controllers
 {
+    [Authorize]
     public class UserController: Controller
     {
         private UserRepository userRepository;
+
+        public UserManager UserManager
+        {
+            get { return HttpContext.GetOwinContext().GetUserManager<UserManager>(); }
+        }
 
         public UserController(UserRepository userRepository)
         {
@@ -37,10 +45,9 @@ namespace WebApplication1.Controllers
             
             var user = new User 
             {
-                FIO = model.FIO,
-                Password = model.Password,
+                FIO = model.FIO,                
                 Age = model.Age,
-                Login = model.Login,
+                UserName = model.Login,
                 Email = model.Email,
                 CreationDate = DateTime.Now,
                 BirthDate = model.BirthDate,
@@ -48,10 +55,12 @@ namespace WebApplication1.Controllers
                         model.Avatar.InputStream.ToByteArray() : 
                         null
             };
-           
-            userRepository.Save(user);
-
-            return RedirectToAction("Index", "Home");
+            var res = UserManager.CreateAsync(user, model.Password);
+            if (res.Result == IdentityResult.Success)
+            { 
+                return RedirectToAction("List");
+            }
+            return View(model);
         }
 
         public ActionResult List(UserFilter filter)
@@ -66,7 +75,7 @@ namespace WebApplication1.Controllers
         public ActionResult GetAvatar(long id)
         {
             var user = userRepository.Load(id);            
-            return File(user.Avatar, "application/octet-stream", $"{user.Login}.jpeg");            
+            return File(user.Avatar, "application/octet-stream", $"{user.UserName}.jpeg");            
         }
     }
 }
