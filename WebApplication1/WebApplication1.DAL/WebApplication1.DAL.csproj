@@ -65,7 +65,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BinaryFileContent.cs" />
     <Compile Include="Filters\BaseFilter.cs" />
+    <Compile Include="Filters\BinaryFileContentFilter.cs" />
+    <Compile Include="Filters\BinaryFileFilter.cs" />
     <Compile Include="Filters\FastSearchAttribute.cs" />
     <Compile Include="Filters\FetchOptions.cs" />
     <Compile Include="Filters\FilterAttribute.cs" />
@@ -73,6 +76,9 @@
     <Compile Include="Filters\Range.cs" />
     <Compile Include="Filters\UserFilter.cs" />
     <Compile Include="Folder.cs" />
+    <Compile Include="BinaryFile.cs" />
+    <Compile Include="Repositories\BinaryFileContentRepository.cs" />
+    <Compile Include="Repositories\BinaryFileRepository.cs" />
     <Compile Include="Repositories\FolderRepository.cs" />
     <Compile Include="Repositories\IRepository.cs" />
     <Compile Include="Repositories\Repository.cs" />

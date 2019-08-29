@@ -15,9 +15,9 @@ using WebApplication1.Models;
 namespace WebApplication1.Controllers
 {
     [Authorize]
-    public class UserController: Controller
+    public class UserController: BaseController
     {
-        private UserRepository userRepository;
+        private UserRepository userRepository;        
 
         public UserManager UserManager
         {
@@ -51,13 +51,15 @@ namespace WebApplication1.Controllers
                 Email = model.Email,
                 CreationDate = DateTime.Now,
                 BirthDate = model.BirthDate,
-                Avatar = model.Avatar != null && model.Avatar.InputStream != null ? 
-                        model.Avatar.InputStream.ToByteArray() : 
-                        null
+                AvatarFile = model.Avatar != null ? model.Avatar.BinaryFile : null
             };
             var res = UserManager.CreateAsync(user, model.Password);
             if (res.Result == IdentityResult.Success)
             { 
+                if (model.Avatar != null)
+                { 
+                    GetFileProvider().Save(model.Avatar.BinaryFile, model.Avatar.PostedFile.InputStream);
+                }
                 return RedirectToAction("List");
             }
             return View(model);
@@ -70,12 +72,24 @@ namespace WebApplication1.Controllers
                 Items = userRepository.Find(filter)
             };
             return View(model);
-        }
+        }        
 
-        public ActionResult GetAvatar(long id)
+        public ActionResult Details(long id)
         {
-            var user = userRepository.Load(id);            
-            return File(user.Avatar, "application/octet-stream", $"{user.UserName}.jpeg");            
+            var user = userRepository.Load(id);
+            var model = new UserModel { 
+                Entity = user,
+                Age = user.Age,
+                Avatar = new BinaryFileWrapper { 
+                    BinaryFile = user.AvatarFile
+                },
+                BirthDate = user.BirthDate,
+                Email = user.Email,
+                FIO = user.FIO,
+                Login = user.UserName,
+                CreationAutor = user.CreationAuthor
+            };
+            return View(model);
         }
     }
 }

@@ -221,12 +221,18 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\BinaryFileController.cs" />
     <Compile Include="Controllers\EntityController.cs" />
     <Compile Include="Controllers\FolderController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Extensions\HtmlExtensions.cs" />
+    <Compile Include="Files\BinaryFileModelBinder.cs" />
+    <Compile Include="Files\BinaryFileWrapper.cs" />
+    <Compile Include="Files\DbFileProvider.cs" />
+    <Compile Include="Files\IFileProvider.cs" />
+    <Compile Include="Files\LocalFileProvider.cs" />
     <Compile Include="Files\StreamHelper.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -273,6 +279,9 @@
     <Content Include="Views\Shared\EditorTemplates\EntityList.cshtml" />
     <Content Include="Views\Shared\SortLink.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\BinaryFileWrapper.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\BinaryFileWrapper.cshtml" />
+    <Content Include="Views\User\Details.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -282,7 +291,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Shared\DisplayTemplates\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WebApplication1.DAL\WebApplication1.DAL.csproj">

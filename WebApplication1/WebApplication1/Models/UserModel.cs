@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using WebApplication1.DAL;
+using WebApplication1.Files;
 using WebApplication1.Validation;
 
 namespace WebApplication1.Models
@@ -45,6 +46,6 @@ namespace WebApplication1.Models
         public User CreationAutor { get; set; }
 
         [DataType(DataType.Upload)]
-        public HttpPostedFileWrapper Avatar { get; set; }
+        public BinaryFileWrapper Avatar { get; set; }
     }
 }

@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WebApplication1.DAL.Filters;
 
+
 namespace WebApplication1.DAL
 {
     [Filter(Type = typeof(UserFilter))]
@@ -34,7 +35,7 @@ namespace WebApplication1.DAL
 
         public virtual DateTime BirthDate { get; set; }
 
-        public virtual byte[] Avatar { get; set; }
+        public virtual BinaryFile AvatarFile { get; set; }
         
     }
 
@@ -50,7 +51,7 @@ namespace WebApplication1.DAL
             Map(u => u.BirthDate);
             Map(u => u.Age);
             Map(u => u.Email);
-            Map(u => u.Avatar).Length(int.MaxValue);
+            References(u => u.AvatarFile).Cascade.SaveUpdate();
             References(u => u.CreationAuthor).Cascade.SaveUpdate();
         }
     }

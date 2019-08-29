@@ -23,6 +23,7 @@ using WebApplication1.DAL.Repositories;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.AspNet.Identity;
+using WebApplication1.Files;
 
 [assembly: OwinStartup(typeof(Startup))]
 namespace WebApplication1.App_Start
@@ -33,6 +34,7 @@ namespace WebApplication1.App_Start
         { 
             AreaRegistration.RegisterAllAreas();
             RouteConfig.RegisterRoutes(RouteTable.Routes);
+            ModelBinders.Binders.Add(typeof(BinaryFileWrapper), new BinaryFileModelBinder());
 
             var connectionString = ConfigurationManager.ConnectionStrings["MSSQL"];
             if (connectionString == null)
@@ -57,12 +59,17 @@ namespace WebApplication1.App_Start
                 .Register(x => x.Resolve<ISessionFactory>().OpenSession())
                 .As<ISession>()
                 .InstancePerRequest();
-            containerBuilder.RegisterControllers(Assembly.GetAssembly(typeof(HomeController)));
+            containerBuilder.RegisterControllers(Assembly.GetAssembly(typeof(HomeController)))
+                .PropertiesAutowired();
             containerBuilder.RegisterModule(new AutofacWebTypesModule());
             containerBuilder.RegisterType<UserRepository>()
                 .AsSelf()
                 .As<Repository<User, UserFilter>>();
             containerBuilder.RegisterType<FolderRepository>();
+            containerBuilder.RegisterType<BinaryFileRepository>();
+            containerBuilder.RegisterType<BinaryFileContentRepository>();
+            containerBuilder.RegisterType<DbFileProvider>().As<IFileProvider>();
+            containerBuilder.RegisterType<LocalFileProvider>().As<IFileProvider>();
             var container = containerBuilder.Build();
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
             app.UseAutofacMiddleware(container);
